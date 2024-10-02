@@ -181,7 +181,7 @@ def audio_call():
 
 def listen():
     global running
-    print("\033[32mListening.. \033[37m(Type '/hang_up' to stop)\033[0m \n")
+    print("\033[32mListening.. \033[32m(Press Ctrl+C to end the call)\033[0m \n")
 
     try:
         with sd.InputStream(
