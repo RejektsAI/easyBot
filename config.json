@@ -1,0 +1,24 @@
+{
+    "default_gpt": false,
+    "gpt_model": "gpt-4o-mini",
+    "top_p": 1,
+    "temp": 1,
+    "tokens": 256,
+    "f_pen": 0,
+    "p_pen": 0,
+    "whisper_model": {
+        "name": "Rejekts/fastest-whisper-tiny",
+        "compute_type": "int8",
+        "device": "cpu"
+    },
+    "sample_rate": 16000,
+    "block_size": 250,
+    "threshold": 0.1,
+    "vocals": [100, 1000],
+    "end_blocks": 20,
+    "system_prompt": "",
+    "file_paths": {
+        "stt": "stt.wav",
+        "tts": "tts.wav"
+    }
+}

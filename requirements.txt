@@ -1,0 +1,7 @@
+numpy
+sounddevice
+scipy
+faster_whisper
+gtts
+pydub
+openai
