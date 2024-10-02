@@ -5,3 +5,4 @@ faster_whisper
 gtts
 pydub
 openai
+ipython
