@@ -30,6 +30,7 @@ easyBot: A versatile AI chatbot with voice interaction capabilities, powered by 
   - gtts
   - pydub
   - openai
+  - ipython
 
 ## Setup and Usage
 
