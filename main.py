@@ -91,7 +91,7 @@ def temp_audio(audio_data):
 
     try:
         wavfile.write(input_audio, int(SampleRate), audio_data)
-        print(f"Audio successfully saved to {input_audio}.")
+        print(f"\033[90mAudio successfully saved to {input_audio}.\033[0m")
         if os.path.getsize(input_audio) == 0:  # Check if the file is empty
             print(f"Warning: {input_audio} is empty after saving.")
     except Exception as e:
@@ -131,7 +131,7 @@ def callback(indata, frames, time, status):
     is_speech = np.sqrt(np.mean(indata**2)) > Threshold and Vocals[0] <= freq <= Vocals[1]
 
     if is_speech:
-        print('.', end='', flush=True)  # Feedback while speaking
+        print('\033[90m.\033[0m', end='', flush=True)  # Feedback while speaking
         if padding < 1:
             buffer = prevblock.copy()
         buffer = np.concatenate((buffer, indata))
