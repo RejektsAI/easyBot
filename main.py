@@ -65,7 +65,8 @@ def llm_response(list):
             presence_penalty=P_PEN,
             response_format={"type": "text"}
         )
-    return api_response.choices[0].message.content
+    response = api_response.choices[0].message.content
+    return response.encode('utf-8').decode('utf-8')
 
 def speak_up(string, language):
     try:
@@ -78,8 +79,7 @@ def speak_up(string, language):
         print(f"Error in speak_up: {e}")
 
 def type_up(string, speed=0.05):
-    new_string = string.encode('utf-8').decode('utf-8')
-    for character in "Her: "+new_string:
+    for character in string:
         print(character, end='', flush=True)
         time.sleep(speed)
     print("",end='\n')
