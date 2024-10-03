@@ -1,4 +1,4 @@
-import os, time, threading, json
+import os, time, json
 import numpy as np
 import sounddevice as sd
 from scipy.io import wavfile
@@ -44,7 +44,7 @@ BlockSize = config['block_size']
 Threshold = config['threshold']
 Vocals = config['vocals']
 EndBlocks = config['end_blocks']
-os.environ['TEMP'] = os.path.join(os.getcwd(), 'TEMP')
+os.environ['TEMP'] = os.path.join(os.getcwd(), 'temp_files')
 os.makedirs(os.environ['TEMP'], exist_ok=True)
 input_audio = os.path.join(os.environ['TEMP'], config['file_paths']['stt'])
 output_audio = os.path.join(os.environ['TEMP'], config['file_paths']['tts'])
@@ -71,16 +71,19 @@ def speak_up(string, language):
     try:
         tts = gTTS(string, lang=language)
         tts.save(output_audio)
+        time.sleep(0.2)
         audio = AudioSegment.from_file(output_audio)
         play(audio)
-        type_up(string)
     except Exception as e:
         print(f"Error in speak_up: {e}")
 
 def type_up(string, speed=0.05):
-    for character in string.encode('utf-8').decode('utf-8'):
-        time.sleep(speed)
+    new_string = string.encode('utf-8').decode('utf-8')
+    for character in "Her: "+new_string:
         print(character, end='', flush=True)
+        time.sleep(speed)
+    print("",end='\n')
+    return
 
 def temp_audio(audio_data):
     if audio_data.ndim == 2 and audio_data.shape[1] == 1:
@@ -157,21 +160,16 @@ def audio_call():
     try:
         time.sleep(0.1)
         transcription, language = transcribe_audio(input_audio)
-        print(transcription)
+        print(f"You: {transcription}")
         user_content = {"role": "user", "content": transcription}
         conversation.append(user_content)
         messages = [system_prompt] + list(conversation)
         ai_message = llm_response(messages)
         ai_content = {"role": "assistant", "content": ai_message}
         conversation.append(ai_content)
-
-        # Start background thread for speech
-        background_thread = threading.Thread(target=speak_up, args=(ai_message, language))
-        background_thread.start()
+        print(f"Her: {ai_message}")
+        speak_up(ai_message, language)
         
-        print('\n')
-        type_up(ai_message) 
-        background_thread.join()  # Wait for speech to finish
 
     except Exception as e:
         print(f"Error during processing: {e}")
@@ -241,7 +239,7 @@ def text_chat():
             ai_content = {"role": "assistant", "content": ai_message}
             conversation.append(ai_content)
             print("Her: ",end="")
-            type_up(ai_message+"\n")
+            type_up(ai_message)
             
 
 # Start with text chat
